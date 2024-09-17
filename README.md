@@ -12,7 +12,7 @@ This module will provide a more hands on approach in the inner workings of what 
 
 ## Steps Taken to Implement
 
-1. Clone this repo to your GitHub account. IMPORTANT: Make sure that the repository name is "microblog_EC2_deployment"
+1. Clone source application repo to new github repository.
    * Performed git clone, then modified the old remote to upstream and then set new remote to origin for the new repo and pushed to main origin for new repo to clone the source repo to the new one. We did this because we wanted to grab the resources from the source repository and have a completely separate repository to perform the work in. We want to track the changes we make to this repo and that's why we did not fork the repository.
 //TODO ADD COMMANDS FOR DOING THIS
 ```
@@ -22,14 +22,14 @@ This module will provide a more hands on approach in the inner workings of what 
 2. We need to create our EC2 Instance. We'll be using t3.micro. For this application, we will be installing Jenkins (CI/CD tool), Python 3.9 (code interpreter), Python3.9-venv (virtual environment module), python3-pip (python package manager), and nginx (reverse proxy). We need Jenkins to build, test, perform checks on our application before we deploy it and have it in production. Python3.9 is what our application is written in and is the version compatible for our code. Python3-pip ensures we have a python package manager installed regardless of python version. Nginx is our reverse proxy that will point clients to the proper port where our application will be hosted. If you'd like to see the script used to install these components, [you can find it here](https://github.com/jonwang22/microblog_EC2_deployment/blob/main/install_jenkins.sh).
 
 
-6. Clone your GH repository to the server, cd into the directory, create and activate a python virtual environment with: 
+3. Now we need to clone this repo to the EC2 instance. Then we navigate to the repo and create a python virtual env.
 ```
 $python3.9 -m venv venv
 $source venv/bin/activate
 ```
+The reason why we want to create a python virtual environment is so that we can have a clean environment for our code to run in. Venv allows us to maintain and control our dependency version, prevent version conflicts, have a clean working environment for the application without any contamination from various packages in the main system.
 
 5. While in the python virtual environment, install the application dependencies and other packages by running:
-
 ```
 $pip install -r requirements.txt
 $pip install gunicorn pymysql cryptography
@@ -41,13 +41,18 @@ $pip install gunicorn pymysql cryptography
 FLASK_APP=microblog.py
 ```
 Question: What is this command doing?
+This command is setting the FLASK_APP environmental variable to microblog.py. FLASK_APP will be necessary for running flask commands in the next step.
 
 7. Run the following commands: 
-
+>   A general utility script for Flask applications.
+    An application to load must be given with the '--app' option, 'FLASK_APP'
+    environment variable, or with a 'wsgi.py' or 'app.py' file in the current
+    directory.
 ```
 $flask translate compile
 $flask db upgrade
 ```
+The flask commands here will look for the application to load, since we assigned FLASK_APP to be "microblog.py" then flask perform the actions using "microblog.py".
 
 8. Edit the NginX configuration file at "/etc/nginx/sites-enabled/default" so that "location" reads as below.
 
