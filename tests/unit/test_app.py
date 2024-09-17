@@ -12,6 +12,6 @@ def client():
     return app.test_client()
 
 def test_website(client):
-    response = client.get("/")
+    response = client.get("/", follow_redirects = True)
     assert response.status_code == 200
 
