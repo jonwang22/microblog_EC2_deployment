@@ -4,23 +4,25 @@
 ---
 
 
-
-## Monitoring Application and Server Resources
+## Purpose - Monitoring Application and Server Resources
 
 In the previous exercises, we deployed a flask app using Elastic Beanstalk. Now we're going to deploy our app manually to our EC2 instance and then set up a monitoring server to pull metrics from the app server to track system metrics.
 
 This module will provide a more hands on approach in the inner workings of what Elastic Beanstalk did for us where we will now need to perform the steps manually or through scripts as we won't have Elastic Beanstalk doing that setup for us.
 
-## Instructions
+## Steps Taken to Implement
 
 1. Clone this repo to your GitHub account. IMPORTANT: Make sure that the repository name is "microblog_EC2_deployment"
+   * Performed git clone, then modified the old remote to upstream and then set new remote to origin for the new repo and pushed to main origin for new repo to clone the source repo to the new one. We did this because we wanted to grab the resources from the source repository and have a completely separate repository to perform the work in. We want to track the changes we make to this repo and that's why we did not fork the repository.
+//TODO ADD COMMANDS FOR DOING THIS
+```
+### ADD GIT CLONE STEPS HERE
+```
 
-2. Create an Ubuntu EC2 instance (t3.micro) named "Jenkins" and install Jenkins onto it (are you still doing this manually?).  Be sure to configure the security group to allow for SSH and HTTP traffic in addition to the ports required for Jenkins and any other services needed (Security Groups can always be modified afterward)
+2. We need to create our EC2 Instance. We'll be using t3.micro. For this application, we will be installing Jenkins (CI/CD tool), Python 3.9 (code interpreter), Python3.9-venv (virtual environment module), python3-pip (python package manager), and nginx (reverse proxy). We need Jenkins to build, test, perform checks on our application before we deploy it and have it in production. Python3.9 is what our application is written in and is the version compatible for our code. Python3-pip ensures we have a python package manager installed regardless of python version. Nginx is our reverse proxy that will point clients to the proper port where our application will be hosted. If you'd like to see the script used to install these components, [you can find it here](https://github.com/jonwang22/microblog_EC2_deployment/blob/main/install_jenkins.sh).
 
-3. Configure the server by installing 'python3.9',  'python3.9-venv', 'python3-pip', and 'nginx'. (Hint: There are several ways to install a previous python version. One method was used in Workloads 1 and 2)
 
-4. Clone your GH repository to the server, cd into the directory, create and activate a python virtual environment with: 
-
+6. Clone your GH repository to the server, cd into the directory, create and activate a python virtual environment with: 
 ```
 $python3.9 -m venv venv
 $source venv/bin/activate
