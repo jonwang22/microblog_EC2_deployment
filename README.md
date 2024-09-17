@@ -7,9 +7,9 @@
 
 ## Monitoring Application and Server Resources
 
-Welcome to Deployment Workload 3! The past 2 Workloads have utilized AWS managed services to provision the infrastructure for our application.  Let's start shifting to infrastucture built by us and take a deeper dive into what goes into deploying an application.
+In the previous exercises, we deployed a flask app using Elastic Beanstalk. Now we're going to deploy our app manually to our EC2 instance and then set up a monitoring server to pull metrics from the app server to track system metrics.
 
-Be sure to document each step in the process and explain WHY each step is important to the pipeline.
+This module will provide a more hands on approach in the inner workings of what Elastic Beanstalk did for us where we will now need to perform the steps manually or through scripts as we won't have Elastic Beanstalk doing that setup for us.
 
 ## Instructions
 
