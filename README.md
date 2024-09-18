@@ -98,6 +98,9 @@ Question: What is this plugin for?  What is it doing?  When does it do it?  Why 
     
     Hint pt 2: NOW does the pipeline complete? Is the application running?  If not: What happened to that RUNNING PROCESS after the deploy STAGE COMPLETES? (stayAlive)
 
+![image](https://github.com/user-attachments/assets/ed5ae076-683a-42bd-8d5a-52aebeacf98f)
+
+
 14. After the application has successfully deployed, create another EC2 (t3.micro) called "Monitoring".  Install Prometheus and Grafana and configure it to monitor the activity on the server running the application. 
 
 15. Document! All projects have documentation so that others can read and understand what was done and how it was done. Create a README.md file in your repository that describes:
