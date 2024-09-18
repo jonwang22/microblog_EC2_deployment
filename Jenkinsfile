@@ -6,7 +6,7 @@ pipeline {
                 sh '''#!/bin/bash
                 python3.9 -m venv venv
 		source venv/bin/activate
-		pip install upgrade --pip
+		pip install --upgrade pip
 		pip install -r requirements.txt
 		pip install gunicorn pymysql cryptography
 		export FLASK_APP=microblog.py
@@ -40,7 +40,7 @@ pipeline {
                 if [[ $(ps aux | grep -i "gunicorn" | tr -s " " | head -n 1 | cut -d " " -f 2) != 0 ]]
                 then
                 ps aux | grep -i "gunicorn" | tr -s " " | head -n 1 | cut -d " " -f 2 > pid.txt
-                sudo kill $(cat pid.txt)
+                kill $(cat pid.txt)
                 exit 0
                 fi
                 '''
