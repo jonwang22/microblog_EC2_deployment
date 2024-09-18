@@ -31,7 +31,7 @@ pipeline {
       stage ('OWASP FS SCAN') {
             steps {
 		// Access API Key from OS Env Variable
-                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit --nvdApiKey 14a32261-3d69-4e51-b45f-b03f7984a12b', odcInstallation: 'DP-Check'
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
@@ -51,7 +51,7 @@ pipeline {
             steps {
                 sh '''#!/bin/bash
                 source venv/bin/activate
-		gunicorn -b :5000 -w 4 microblog:app
+		gunicorn -b :5000 -w 4 microblog:app &
                 '''
             }
         }
