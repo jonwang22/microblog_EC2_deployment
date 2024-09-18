@@ -30,7 +30,6 @@ pipeline {
         }
       stage ('OWASP FS SCAN') {
             steps {
-		// Access API Key from OS Env Variable
                 dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
@@ -41,7 +40,7 @@ pipeline {
                 if [[ $(ps aux | grep -i "gunicorn" | tr -s " " | head -n 1 | cut -d " " -f 2) != 0 ]]
                 then
                 ps aux | grep -i "gunicorn" | tr -s " " | head -n 1 | cut -d " " -f 2 > pid.txt
-                kill $(cat pid.txt)
+                sudo kill $(cat pid.txt)
                 exit 0
                 fi
                 '''
@@ -51,7 +50,14 @@ pipeline {
             steps {
                 sh '''#!/bin/bash
                 source venv/bin/activate
-		gunicorn -b :5000 -w 4 microblog:app &
+		sudo systemctl restart gunicorn.service
+		if sudo /bin/systemctl is-active --quiet gunicorn; then
+		    echo "Gunicorn restarted successfully."
+		else
+		    echo "Failed to restart Gunicorn."
+		    sudo /bin/journalctl -u gunicorn.service
+		    exit 1
+		fi
                 '''
             }
         }
