@@ -50,7 +50,7 @@ pipeline {
             steps {
                 sh '''#!/bin/bash
                 source venv/bin/activate
-		sudo systemctl restart gunicorn.service
+		sudo /bin/systemctl restart gunicorn.service
 		if sudo /bin/systemctl is-active --quiet gunicorn; then
 		    echo "Gunicorn restarted successfully."
 		else
