@@ -58,3 +58,16 @@ sudo systemctl enable grafana-server
 echo "Installation complete. Access Prometheus at http://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4):9090"
 echo "Access Grafana at http://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4):3000"
 echo "Default Grafana login is admin/admin"
+
+# Add Node Exporter job to Prometheus config
+cat << EOF | sudo tee -a /opt/prometheus/prometheus.yml
+
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['localhost:9100'] # <----CHANGE 'localhost' to private IP of target instance
+EOF
+
+# Restart Prometheus to apply the new configuration
+sudo systemctl restart prometheus
+
+echo "Node Exporter job added to Prometheus configuration. Prometheus has been restarted."
